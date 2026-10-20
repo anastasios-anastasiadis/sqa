@@ -1,0 +1,4 @@
+# QA run outputs contain screenshots and data from real apps. Keep them local.
+runs/
+
+.DS_Store

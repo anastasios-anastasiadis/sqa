@@ -1,0 +1,10 @@
+#!/bin/sh
+# Block commits where CLAUDE.md and AGENTS.md differ in the staged version.
+
+claude=$(git show :CLAUDE.md 2>/dev/null)
+agents=$(git show :AGENTS.md 2>/dev/null)
+
+if [ "$claude" != "$agents" ]; then
+  echo "pre-commit: CLAUDE.md and AGENTS.md must be identical. Make the same change in both, then commit again." >&2
+  exit 1
+fi

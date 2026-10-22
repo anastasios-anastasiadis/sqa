@@ -19,7 +19,9 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test test/*.test.ts"
+    "test": "tsx --test test/*.test.ts",
+    "check:s": "node --env-file=targets/s/.env bin/sqa.mjs check --dir targets/s",
+    "login:s": "playwright open --save-storage=targets/s/.auth/state.json http://localhost:3000"
   },
   "dependencies": {
     "playwright": "^1.64.1",

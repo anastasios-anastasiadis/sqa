@@ -75,6 +75,15 @@ One check in `checks.json`:
 
 Development: `npm test` (unit tests) and `npm run typecheck`.
 
+### Targets
+
+`targets/<app>/` holds the check files for an app we test, so that app's repo isn't touched. Each target has its own `.gitignore` for `.auth/` (saved login) and `.env` (`TYPESAFE_API_KEY`).
+
+- `targets/s/`: local S at `http://localhost:3000`. Its first check covers the known timezone-search bug in the Schedule report dialog: searching "dubai" still lists every timezone. The checks are `tz-match` and `tz-only-matches`, and both should fail until S fixes the bug.
+  - Log in once with `npm run login:s`. Sign in in the window that opens, then close it.
+  - Run it with `npm run check:s`.
+  - Set `DASHBOARD_PATH` in `flows/timezone-search.ts` to a dashboard in local S first.
+
 ### Known limits and not built yet
 
 - Headless Playwright hides scrollbars by default. SQA turns that off.

@@ -1,0 +1,3 @@
+# Saved login session and the Jev key. Never commit these.
+.auth/
+.env

@@ -1,11 +1,11 @@
 import type { Flow } from '../../../src/index.ts'
 
-// Any dashboard in local S works. Its header has the "Schedule report" button.
-const DASHBOARD_PATH = '/home/workspaces/default/apps/crm/dashboards/REPLACE-ME'
+// Any S dashboard works. Its header has the "Schedule report" button.
+const DASHBOARD_PATH = '/home/workspaces/default/apps/crm/dashboards/norma-product-performance'
 
 const flow: Flow = async ({ page, sqa }) => {
   if (DASHBOARD_PATH.includes('REPLACE-ME')) {
-    throw new Error('Set DASHBOARD_PATH in targets/s/flows/timezone-search.ts to a dashboard in local S.')
+    throw new Error('Set DASHBOARD_PATH in targets/s/flows/timezone-search.ts to an S dashboard.')
   }
   await page.goto(DASHBOARD_PATH)
   await page.getByRole('button', { name: 'Schedule report' }).click()

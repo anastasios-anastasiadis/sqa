@@ -79,10 +79,11 @@ Development: `npm test` (unit tests) and `npm run typecheck`.
 
 `targets/<app>/` holds the check files for an app we test, so that app's repo isn't touched. Each target has its own `.gitignore` for `.auth/` (saved login) and `.env` (`TYPESAFE_API_KEY`).
 
-- `targets/s/`: local S at `http://localhost:3000`. Its first check covers the known timezone-search bug in the Schedule report dialog: searching "dubai" still lists every timezone. The checks are `tz-match` and `tz-only-matches`, and both should fail until S fixes the bug.
-  - Log in once with `npm run login:s`. Sign in in the window that opens, then close it.
-  - Run it with `npm run check:s`.
-  - Set `DASHBOARD_PATH` in `flows/timezone-search.ts` to a dashboard in local S first.
+- `targets/s/`: S staging at `https://staging.s.norma.app`. Its first check covers the known timezone-search bug in the Schedule report dialog: searching "dubai" still lists every timezone. The checks are `tz-match` and `tz-only-matches`, and both should fail until S fixes the bug.
+  - `targets/s/.env` holds `TYPESAFE_API_KEY`, plus `S_EMAIL` and `S_PASSWORD` for the staging test account.
+  - `npm run login:s` signs in headlessly through `auth.staging.s.norma.app` and saves the session to `.auth/state.json`. Run it again when the session expires.
+  - Run the check with `npm run check:s`.
+  - First run (22 Oct 2026): both checks failed as expected. Jev gave a 1–2% chance that Asia/Dubai was listed, and a 100% chance that non-matching timezones were showing. It recorded 182 frames but asked Jev only 2.
 
 ### Known limits and not built yet
 

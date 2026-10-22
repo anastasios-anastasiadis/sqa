@@ -1,18 +1,21 @@
-// Signs in to S staging with the test account in targets/s/.env and saves the
-// session to targets/s/.auth/state.json for `sqa check`.
+// Signs in to S with the test account from the target's .env and saves the
+// session to <target>/.auth/state.json for `sqa check`. Defaults to staging;
+// targets/s-local sets S_BASE_URL, S_AUTH_HOST and S_TARGET_DIR.
 import { mkdirSync } from 'node:fs'
+import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
 
-const BASE_URL = 'https://staging.s.norma.app'
-const AUTH_HOST = 'auth.staging.s.norma.app'
+const BASE_URL = process.env.S_BASE_URL ?? 'https://staging.s.norma.app'
+const AUTH_HOST = process.env.S_AUTH_HOST ?? 'auth.staging.s.norma.app'
 const SESSION_KEY = 'workspace-web.session'
 
 const email = process.env.S_EMAIL
 const password = process.env.S_PASSWORD
-if (!email || !password) throw new Error('Set S_EMAIL and S_PASSWORD in targets/s/.env')
+if (!email || !password) throw new Error("Set S_EMAIL and S_PASSWORD in the target's .env")
 
-const authDir = fileURLToPath(new URL('./.auth/', import.meta.url))
+const targetDir = process.env.S_TARGET_DIR ? resolve(process.env.S_TARGET_DIR) : fileURLToPath(new URL('.', import.meta.url))
+const authDir = join(targetDir, '.auth/')
 mkdirSync(authDir, { recursive: true })
 
 const browser = await chromium.launch()
@@ -41,7 +44,7 @@ try {
 
   await page.waitForFunction((key) => localStorage.getItem(key) !== null, SESSION_KEY, { timeout: 30_000 })
   await context.storageState({ path: `${authDir}state.json` })
-  console.log('Signed in. Session saved to targets/s/.auth/state.json')
+  console.log(`Signed in. Session saved to ${authDir}state.json`)
 } catch (error) {
   const shot = `${authDir}login-failure.png`
   await page.screenshot({ path: shot }).catch(() => {})

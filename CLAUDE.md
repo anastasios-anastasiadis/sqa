@@ -84,6 +84,11 @@ Development: `npm test` (unit tests) and `npm run typecheck`.
   - `npm run login:s` signs in headlessly through `auth.staging.s.norma.app` and saves the session to `.auth/state.json`. Run it again when the session expires.
   - Run the check with `npm run check:s`.
   - First run (22 Oct 2026): both checks failed as expected. Jev gave a 1–2% chance that Asia/Dubai was listed, and a 100% chance that non-matching timezones were showing. It recorded 182 frames but asked Jev only 2.
+- `targets/s-local/`: the same check against local S at `http://localhost:3000`, using the local acceptance user. The flow and `login.ts` are shared with `targets/s/`. Its `.env` also sets `S_BASE_URL`, `S_AUTH_HOST=zitadel.localhost`, `S_TARGET_DIR` and `S_DASHBOARD_PATH`, which is currently `foodics-bi/peak-hours`.
+  - Sign in with `npm run login:s-local`, then run `npm run check:s-local`.
+  - Before the fix (22 Oct 2026), both checks failed, the same as on staging.
+  - After the fix, on local S branch `fix/timezone-search`, `tz-match` passed (p 0.99–1.0). `tz-only-matches` came back unsure (p 0.62) on the final frames. The 280 px minimum crop pulled in the timezone button below the list, which shows "Europe/Athens", and Jev counted it as part of the list.
+  - Lesson: widening a crop to fit Jev's minimum size can bring in misleading nearby elements.
 
 ### Known limits and not built yet
 

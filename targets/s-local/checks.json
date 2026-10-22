@@ -1,0 +1,22 @@
+{
+  "checks": [
+    {
+      "tag": "tz-match",
+      "line": "Searching \"dubai\" shows Asia/Dubai in the list.",
+      "context": "The Timezone dropdown in the Schedule report dialog, with a search box above a list of timezones.",
+      "flow": "timezone-search",
+      "crop": "[data-slot=combobox-content]",
+      "question": "Does the list of timezones include the entry \"Asia/Dubai\"?",
+      "expect": [{ "when": { "query": "dubai" }, "answer": "yes" }]
+    },
+    {
+      "tag": "tz-only-matches",
+      "line": "Searching \"dubai\" hides timezones that don't contain \"Dubai\".",
+      "context": "The Timezone dropdown in the Schedule report dialog, with a search box above a list of timezones.",
+      "flow": "timezone-search",
+      "crop": "[data-slot=combobox-content]",
+      "question": "Does the list show any timezone whose name does not contain the word \"Dubai\", such as Europe/Athens or Australia/Sydney?",
+      "expect": [{ "when": { "query": "dubai" }, "answer": "no" }]
+    }
+  ]
+}

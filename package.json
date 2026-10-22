@@ -21,7 +21,9 @@
     "typecheck": "tsc --noEmit",
     "test": "tsx --test test/*.test.ts",
     "check:s": "node --env-file=targets/s/.env bin/sqa.mjs check --dir targets/s",
-    "login:s": "node --env-file=targets/s/.env --import tsx targets/s/login.ts"
+    "login:s": "node --env-file=targets/s/.env --import tsx targets/s/login.ts",
+    "login:s-local": "node --env-file=targets/s-local/.env --import tsx targets/s/login.ts",
+    "check:s-local": "node --env-file=targets/s-local/.env bin/sqa.mjs check --dir targets/s-local"
   },
   "dependencies": {
     "playwright": "^1.64.1",
